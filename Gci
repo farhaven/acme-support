@@ -1,0 +1,6 @@
+#!/bin/bash
+
+wincmd=win
+# which gwin 2>/dev/null 1>&2 && wincmd=gwin
+
+$wincmd git commit --interactive

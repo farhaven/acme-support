@@ -1,0 +1,6 @@
+#!/bin/bash
+
+wincmd=win
+# which gwin && wincmd=gwin
+
+$wincmd git push $@

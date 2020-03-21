@@ -1,0 +1,38 @@
+#!/bin/bash
+
+9p read acme/log | while read line; do
+	winid=$(echo "$line" | cut -d' ' -f1)
+	action=$(echo "$line" | cut -d' ' -f2)
+	fname=$(echo "$line" | cut -d' ' -f3-)
+
+	if [[ "$action" != "new" ]]; then
+		continue
+	fi
+
+	if [[ -d "$fname" ]]; then
+		cd "$fname" >/dev/null 2>&1 || continue
+
+		# Directory listing
+		# If it's in a git repo, add a few git commands to the tag
+		if git status >/dev/null 2>&1; then
+			printf "Gci " | 9p write acme/$winid/tag
+		fi
+	else
+		# Regular file
+		(
+			printf "|I- |I+ "
+
+			case "$fname" in
+				*.go)
+					printf "Lfmt Ldef Lrefs "
+					;;
+				*/go.mod)
+					printf "Lws+ "
+					;;
+				*/COMMIT_EDITMSG)
+					printf "|fmt "
+					;;
+			esac
+		) | 9p write acme/$winid/tag
+	fi
+done
