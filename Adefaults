@@ -29,7 +29,7 @@
 				*/go.mod)
 					printf "Lws+ "
 					;;
-				*/COMMIT_EDITMSG)
+				*/COMMIT_EDITMSG|*.md)
 					printf "|fmt "
 					;;
 			esac
