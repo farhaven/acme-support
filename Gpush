@@ -1,6 +1,7 @@
 #!/bin/bash
 
-wincmd=win
-# which gwin && wincmd=gwin
-
-$wincmd git push $@
+if git push $@; then
+	echo "push successful"
+else
+	echo "push failed"
+fi

@@ -3,4 +3,4 @@
 wincmd=win
 # which gwin 2>/dev/null 1>&2 && wincmd=gwin
 
-$wincmd git commit --interactive
+$wincmd sh -c "git status; git commit --interactive"
