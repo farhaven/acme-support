@@ -10,7 +10,9 @@ if [[ -z $(pgrep fontsrv) ]]; then
 	9 fontsrv &
 fi
 
-acme -a -f /mnt/font/GoMono/11a/font -F /mnt/font/GoRegular/11a/font "$@" &
+fontsz=14
+
+acme -a -f /mnt/font/GoMono/${fontsz}a/font -F /mnt/font/GoRegular/${fontsz}a/font "$@" &
 
 sleep 1
 acmefocused &
