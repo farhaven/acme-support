@@ -28,6 +28,9 @@ These indent and dedent text. Indentation is a tab character. Dedent
 supports tabs and blanks. These are intended to behave similar to Vi's
 `<` and `>` commands.
 
+## `Z+` and `Z-`
+Zoom the current ACME window in (`Z+`) or out (`Z-`).
+
 ## `start-acme.sh`
 This is the script that I use to start Acme. It starts `plumber`,
 `fontsrv`, `acme-lsp`, a completion binding handler and `Adefaults`. It
