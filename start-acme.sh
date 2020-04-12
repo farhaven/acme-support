@@ -10,7 +10,9 @@ if [[ -z $(pgrep fontsrv) ]]; then
 	9 fontsrv &
 fi
 
-fontsz=14
+if [[ -z "$fontsz" ]]; then
+	fontsz=14
+fi
 
 acme -a -f /mnt/font/GoMono/${fontsz}a/font -F /mnt/font/GoRegular/${fontsz}a/font "$@" &
 
