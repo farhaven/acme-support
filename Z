@@ -1,24 +1,25 @@
 #!/bin/bash
 # When called as Z-, this script zooms out. When called as Z+, it zooms in.
+# Pass the font size delta as the second argument. If none is given, 1 is assumed.
 set -eu
 
-tagsz=$(9p read acme/$winid/ctl | awk '{ print $2 }')
 font=$(9p read acme/$winid/ctl | awk '{ print $7 }')
-tagnow=$(9p read acme/$winid/tag | cut -d'|' -f2-) # HACK: Doesn't handle multiline tags with | in the latter lines
 
 # Get current font size
 cursz=$(echo "$font" | awk -F '/' '{ print $(NF - 1) }')
 
+delta=${1:-1}
+
 case "$(basename $0)" in
 	Z-)
-		incr=-1
+		incr=-$delta
 		;;
 	Z+)
-		incr=+1
+		incr=+$delta
 		;;
 	*)
 		echo wat
-		incr=+1
+		incr=+$delta
 		;;
 esac
 
@@ -28,13 +29,4 @@ newsz=$(($(echo "$cursz" | tr -dc '[0-9]') + "$incr"))a
 
 # New font
 newfont=$(echo "$font" | awk -v newsz="$newsz" -F'/' '{ print "/mnt/font/"$4"/"newsz"/font" }')
-printf "Font %s" "$newfont" | 9p write acme/$winid/tag
-newtagsz=$(9p read acme/$winid/ctl | awk '{ print $2 }')
-
-# Generate "Execute" comman
-# No idea why the `-5` is necessary here.
-printf "Mx %d %d\n" $(($tagsz - 5)) $(($newtagsz - 5)) | 9p write acme/$winid/event
-
-# Restore tag
-printf "cleartag" | 9p write acme/$winid/ctl
-printf "%s" "$tagnow" | 9p write acme/$winid/tag
+printf "font %s\n" "$newfont" | 9p write acme/$winid/ctl
