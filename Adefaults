@@ -15,21 +15,32 @@
 		# Directory listing
 		# If it's in a git repo, add a few git commands to the tag
 		if git status >/dev/null 2>&1; then
-			printf "Gci " | 9p write acme/$winid/tag
+			printf "Gci Gpush " | 9p write acme/$winid/tag
 		fi
+
+		cd "$HOME" # Need to cd somewhere else so unmounting things works
 	else
 		# Regular file
 		(
-			printf "|I- |I+ "
+			printf " |I- |I+ "
 
 			case "$fname" in
+				*.beancount)
+					printf '[fava $%%] :$ '
+					;;
+				*.md|*/guide)
+					printf "|fmt |Check"
+					;;
 				*.go)
 					printf "Lfmt Ldef Lrefs "
 					;;
 				*/go.mod)
 					printf "Lws+ "
 					;;
-				*/COMMIT_EDITMSG|*.md)
+				*.py)
+					printf "[Edit ,x/	/c/    /] "
+					;;
+				*/COMMIT_EDITMSG)
 					printf "|fmt "
 					;;
 			esac
