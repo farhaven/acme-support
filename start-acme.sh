@@ -19,5 +19,5 @@ acme -a -f /mnt/font/GoMono/${fontsz}a/font -F /mnt/font/GoRegular/${fontsz}a/fo
 sleep 1
 acmefocused &
 acme-lsp &
-acme-complete-bind &
+# acme-complete-bind &
 Adefaults &
